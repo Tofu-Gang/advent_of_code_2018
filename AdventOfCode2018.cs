@@ -6,8 +6,14 @@ namespace AdventOfCode2018
     {
         static void Main(string[] args)
         {
-            Day01.Day01.Puzzle1();
-            Day01.Day01.Puzzle2();
+            // The solution should be 484.
+            // Day01.Day01.Puzzle1();
+            // The solution should be 367.
+            // Day01.Day01.Puzzle2();
+            // The solution should be 6175.
+            // Day02.Day02.Puzzle1();
+            // The solution should be asgwjcmzredihqoutcylvzinx.
+            Day02.Day02.Puzzle2();
         }
     }
 }

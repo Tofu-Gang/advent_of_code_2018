@@ -66,7 +66,6 @@ namespace AdventOfCode2018.Day01
             foreach (var line in lines) 
                 sum += Convert.ToInt32(line);
 
-            // The solution should be 484.
             Console.WriteLine("The resulting frequency is {0}.", sum);
         }
 
@@ -114,7 +113,6 @@ namespace AdventOfCode2018.Day01
             {
                 if (frequencies.Contains(sum))
                 {
-                    // The solution should be 367.
                     Console.WriteLine("The first frequency the device reaches twice is {0}.", sum);
                     break;
                 }
