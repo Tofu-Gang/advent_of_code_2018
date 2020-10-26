@@ -13,7 +13,9 @@ namespace AdventOfCode2018
             // The solution should be 6175.
             // Day02.Day02.Puzzle1();
             // The solution should be asgwjcmzredihqoutcylvzinx.
-            Day02.Day02.Puzzle2();
+            // Day02.Day02.Puzzle2();
+            // The solution should be 100595.
+            Day03.Day03.Puzzle1();
         }
     }
 }
