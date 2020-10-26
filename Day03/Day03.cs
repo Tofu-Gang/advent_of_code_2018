@@ -9,9 +9,8 @@ namespace AdventOfCode2018.Day03
     public class Day03
     {
 
-        private static readonly char EMPTY = '.';
-        private static readonly char CLAIM = '#';
-        private static readonly char OVERLAP = 'X';
+        private static readonly string EMPTY = ".";
+        private static readonly string OVERLAP = "X";
 
         public static void Puzzle1()
         {
@@ -81,7 +80,7 @@ namespace AdventOfCode2018.Day03
 
             var fabric = CreateFabric();
             fabric = EnterClaims(fabric);
-            Console.WriteLine("Number of square inches of fabric that are within two or more claims: {0}", GetOverlapsCount(fabric));
+            Console.WriteLine("Number of square inches of fabric that are within two or more claims: {0}", GetCount(fabric, OVERLAP));
         }
 
         private static string GetId(string claim) => claim.Split("@")[0].Trim();
@@ -116,11 +115,11 @@ namespace AdventOfCode2018.Day03
             return height;
         }
 
-        private static char[,] CreateFabric()
+        private static string[,] CreateFabric()
         {
             var fabricWidth = GetFabricWidth();
             var fabricHeight = GetFabricHeight();
-            var fabric = new char[fabricHeight, fabricWidth];
+            var fabric = new string[fabricHeight, fabricWidth];
 
             for (var i = 0; i < fabricHeight; i++)
             {
@@ -130,7 +129,7 @@ namespace AdventOfCode2018.Day03
             return fabric;
         }
 
-        private static char[,] EnterClaims(char[,] fabric)
+        private static string[,] EnterClaims(string[,] fabric)
         {
             var claims = File.ReadLines(@"..\..\..\Day03\input.txt");
             foreach (var claim in claims)
@@ -144,8 +143,8 @@ namespace AdventOfCode2018.Day03
                     for (var j = leftPadding; j < leftPadding + width; j++)
                     {
                         if (fabric[i, j] == EMPTY)
-                            fabric[i, j] = CLAIM;
-                        else if (fabric[i, j] == CLAIM)
+                            fabric[i, j] = GetId(claim);
+                        else if (fabric[i, j] != OVERLAP)
                             fabric[i, j] = OVERLAP;
                     }
                 }
@@ -153,14 +152,14 @@ namespace AdventOfCode2018.Day03
             return fabric;
         }
 
-        private static int GetOverlapsCount(char[,] fabric)
+        private static int GetCount(string[,] fabric, string value)
         {
             var count = 0;
             for (var i = 0; i < fabric.GetLength(0); i++)
             {
                 for (var j = 0; j < fabric.GetLength(1); j++)
                 {
-                    if (fabric[i, j] == OVERLAP)
+                    if (fabric[i, j] == value)
                         count++;
                 }
             }
@@ -179,6 +178,26 @@ namespace AdventOfCode2018.Day03
              * 
              * What is the ID of the only claim that doesn't overlap?
              */
+
+            var fabric = CreateFabric();
+            fabric = EnterClaims(fabric);
+            Console.WriteLine("ID of the only claim that doesn't overlap: {0}", GetNonOverlappingClaim(fabric));
+        }
+
+        private static string GetNonOverlappingClaim(string[,] fabric)
+        {
+            var claims = File.ReadLines(@"..\..\..\Day03\input.txt");
+            foreach (var claim in claims)
+            {
+                var id = GetId(claim);
+                var count = GetCount(fabric, id);
+                var width = GetWidth(claim);
+                var height = GetHeight(claim);
+
+                if (count == width * height)
+                    return id;
+            }
+            return null;
         }
     }
 }
