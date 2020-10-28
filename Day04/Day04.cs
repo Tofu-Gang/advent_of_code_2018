@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace AdventOfCode2018.Day04
 {
@@ -231,7 +228,7 @@ namespace AdventOfCode2018.Day04
                     lastMinute = GetDateTime(entry).Minute;
                 }
             }
-            Console.Write(new String('.', 60 - lastMinute));
+            Console.WriteLine(new String('.', 60 - lastMinute));
         }
 
         private static DateTime GetDateTime(string entry) => DateTime.Parse(entry.Substring(DATE_START_INDEX, DATE_END_INDEX));
@@ -253,7 +250,58 @@ namespace AdventOfCode2018.Day04
 
         public static void Puzzle2()
         {
-            
+            /*
+             * --- Part Two ---
+             * Strategy 2: Of all guards, which guard is most frequently asleep on the same minute?
+             * 
+             * In the example above, Guard #99 spent minute 45 asleep more than any other guard 
+             * or minute - three times in total. (In all other cases, any guard spent any minute 
+             * asleep at most twice.)
+             * 
+             * What is the ID of the guard you chose multiplied by the minute you chose? (In the 
+             * above example, the answer would be 99 * 45 = 4455.)
+             */
+
+            var entries = GetEntries();
+            var allGuardsIDs = GetAllGuardsIDs(entries);
+            var maxMinuteSleepCount = 0;
+            var mostFrequentSleepyMinute = 0;
+            var mostFrequentlyAsleepGuardID = "";
+
+            foreach (var guardID in allGuardsIDs)
+            {
+                var guardEntries = GetGuardEntries(entries, guardID);
+                var mostSleepyMinute = GetMostSleepyMinute(guardEntries);
+                var minuteSleepCount = GetMinuteSleepCount(mostSleepyMinute, guardEntries);
+
+                if (minuteSleepCount > maxMinuteSleepCount)
+                {
+                    maxMinuteSleepCount = minuteSleepCount;
+                    mostFrequentlyAsleepGuardID = guardID;
+                    mostFrequentSleepyMinute = mostSleepyMinute;
+                }
+            }
+
+            Console.WriteLine("The ID of the guard you chose multiplied by the minute you chose: {0}", 
+                Convert.ToInt32(mostFrequentlyAsleepGuardID.Substring(1)) * mostFrequentSleepyMinute);
+        }
+
+        private static List<string> GetAllGuardsIDs(List<string> entries)
+        {
+            var guardIDs = new List<string>();
+
+            foreach (var entry in entries)
+            {
+                if (entry.Contains(GUARD) && entry.Contains(SHIFT_START))
+                {
+                    var guardID = GetGuardId(entry);
+                    
+                    if (!guardIDs.Contains(guardID))
+                        guardIDs.Add(guardID);
+                }
+            }
+
+            return guardIDs;
         }
     }
 }
