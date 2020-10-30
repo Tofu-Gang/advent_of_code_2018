@@ -27,7 +27,9 @@ namespace AdventOfCode2018
             // The solution should be 4996.
             // Day05.Day05.Puzzle2();
             // The solution should be 4284.
-            Day06.Day06.Puzzle1();
+            // Day06.Day06.Puzzle1();
+            // The solution should be 35490.
+            Day06.Day06.Puzzle2();
         }
     }
 }
